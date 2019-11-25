@@ -4,6 +4,9 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
+app.locals.title = 'Boy Bands and Their Members Since 1980';
+app.use(express.json());
+app.use(cors());
 app.set('port', process.env.PORT || 3000);
 
 app.get('/api/v1/bands', (request, response) => {
