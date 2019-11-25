@@ -107,7 +107,31 @@ app.post('/api/v1/members', (request, response) => {
 
   database('bandMembers').insert(member, 'id')
     .then(member => {
-      response.status(201).json({ id: member[0] })
+      response.status(201).json(`Boy band member with id of ${member[0]} successfully created!`)
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+})
+
+app.post('/api/v1/bands', (request, response) => {
+  const band = request.body;
+
+  if (!band.name) {
+    return response.status(422).send({ error: `Expected format: {
+      name: <String>,
+      highest_pos: <String>,
+      highest_pos_date: <String>,
+      highest_song: <String>,
+      highest_song_vid: <URL>,
+    }
+    
+    At least name is required. Please provide the band's name.`})
+  }
+
+  database('bands').insert(band, 'id')
+    .then(band => {
+      response.status(201).json(`Boy band with id of ${band[0]} successfully created!`)
     })
     .catch(error => {
       response.status(500).json({ error })
