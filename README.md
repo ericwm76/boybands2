@@ -15,6 +15,11 @@ This application was built using the following technologies:
 - PostgresQL
 
 ---
+## Project Management
+
+This application was managed using Trello and Github Issues. Link to Trello board [here](https://trello.com/b/DfNfGO9M).
+
+---
 ## API Endpoints
 
 ### Base URL
@@ -37,12 +42,12 @@ https://boybands.herokuapp.com/
     </tr>
   </thead>
   <tr>
-    <th>
+    <td>
       200
-    </th>
-    <th>
+    </td>
+    <td>
       Returns an array of all of the band objects
-    </th>
+    </td>
   </tr>
 </table>
 
