@@ -30,6 +30,23 @@ app.get('/api/v1/members', (request, response) => {
   });
 });
 
+app.get('/api/v1/bands/:id', (request, response) => {
+  const { id } = request.params;
+  database('bands')
+    .where({ id: id })
+    .then(band => {
+      if (band.length === 0) {
+        response
+          .status(404)
+          .json({ error: `There is not a boy band with an id of ${id}!` });
+      }
+      response.status(200).json(band[0]);
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
 app.get('/api/v1/members/:id', (request, response) => {
   const { id } = request.params;
   database('bandMembers')
