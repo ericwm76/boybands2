@@ -373,12 +373,12 @@ The data used to seed this database came from [The Pudding](https://pudding.cool
     </tr>
   </thead>
   <tr>
-    <th>201</th>
-    <th>Returns `Boy band with id of <band_id> successfully created!`</th>
+    <td>201</td>
+    <td>Returns `Boy band with id of (band_id) successfully created!`</td>
   </tr>
     <tr>
-    <th>422</th>
-    <th>
+    <td>422</td>
+    <td>
       <code>
         { error: `Expected format: {
       name: <String>,
@@ -389,7 +389,7 @@ The data used to seed this database came from [The Pudding](https://pudding.cool
     }
     At least name is required. Please provide the band's name.` }
       </code> 
-    </th>
+    </td>
   </tr>
 </table>
 
@@ -412,4 +412,158 @@ or
 ```
 </details>
 
+---
+### Add a band member:
+<code>POST /api/v1/members/</code> 
 
+#### Parameters
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+      <td>
+        Name of boy band member.
+      </td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <td><code>band_name</code></td>
+      <td><code>string</code></td>
+      <td>
+        The name of the boy band of which they are/were a member.
+      </td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <td><code>dob</code></td>
+      <td><code>string</code></td>
+      <td>The member's date of birth.</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>hair_color</code></td>
+      <td><code>string</code></td>
+      <td>The boy band member's hair color.</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>hair_frosted</code></td>
+      <td><code>string</code></td>
+      <td>Did the boy band member have frosted tips? Returns yes, no, red or green.</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>hair_style</code></td>
+      <td><code>string</code></td>
+      <td>The boy band member's hair style.</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>eyes</code></td>
+      <td><code>string</code></td>
+      <td>The boy band member's eye color.</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>facial_hair</code></td>
+      <td><code>string</code></td>
+      <td>If the boy band member has facial hair, returns a description of the type (mustache, goatee, etc.)</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>accessories</code></td>
+      <td><code>string</code></td>
+      <td>If the boy band member wears accessories, returns a description of the type (earrings, necklace, baseball hat, etc.)</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>top_style</code></td>
+      <td><code>string</code></td>
+      <td>The style of top the boy band member typically wears on stage (t-shirt, suit jacket, etc.)</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>bottom_style</code></td>
+      <td><code>string</code></td>
+      <td>The style of pants the boy band member typically wears on stage (dress pants, jeans, etc.)</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>instruments</code></td>
+      <td><code>string</code></td>
+      <td>If the boy band member played an instrument, that instrument is returned here (bass, keyboard, etc.)</td>
+      <td>NO</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Response
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Response</th>
+    </tr>
+  </thead>
+  <tr>
+    <td>201</td>
+    <td>Returns `Boy band member with id of (member_id) successfully created!`</td>
+  </tr>
+    <tr>
+    <td>422</td>
+    <td>
+      <code>
+        { error: `Expected format: {
+          name: <String>,
+          band_name: <String>,
+          dob: <String>,
+          hair_color: <String>,
+          hair_frosted: <String>,
+          hair_style: <String>,
+          eyes: <String>,
+          facial_hair: <String>,
+          accessories: <String>,
+          top_style: <String>,
+          bottom_style: <String>,
+          instrument: <String>
+        }
+        At least name and band_name are required. You're missing (name of parameter)`}
+      </code> 
+    </td>
+  </tr>
+</table>
+
+<details><summary>Example response</summary>
+
+```json
+`Boy band with id of 63 successfully created!`
+```
+or
+
+```
+{ error: `Expected format: {
+        name: <String>,
+        band_name: <String>,
+        dob: <String>,
+        hair_color: <String>,
+        hair_frosted: <String>,
+        hair_style: <String>,
+        eyes: <String>,
+        facial_hair: <String>,
+        accessories: <String>,
+        top_style: <String>,
+        bottom_style: <String>,
+        instrument: <String>
+      }
+      At least name and band_name are required. You're missing band_name.`}
+```
+</details>
