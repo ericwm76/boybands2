@@ -138,6 +138,10 @@ app.post('/api/v1/bands', (request, response) => {
     })
 })
 
+app.get('/', (request, response) => {
+  response.send('For documentation on endpoints, please see https://github.com/ericwm76/boybands2')
+})
+
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
 })
