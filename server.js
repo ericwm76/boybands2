@@ -96,28 +96,37 @@ app.get('/api/v1/members/:id', (request, response) => {
     });
 });
 
+// Creates an endpoint for a DELETE request for a specific band member at the '/api/v1/members/:id' route
 app.delete('/api/v1/members/:id', (request, response) => {
+  // Deconstructs the id property from the request's params object and sets it to a constant
   const { id } = request.params;
-  database('bandMembers')
-    .where({ id: id }).select().del()
+  // Select everything from the 'bandMembers' data table where the id number matches the id passed in by the request params, and delete it from the database
+  database('bandMembers').where({ id: id }).select().del()
+    // Run a callback function on the response, which is the number of rows deleted
     .then(r => {
+      // If there were no rows deleted, send back a 404 error indicating that the band member was not found.
       if (r === 0) {
-        response
-        .status(404)
-        .json({ error: `There is not a boy band member with an id of ${id}!` });
+        response.status(404).json({ error: `There is not a boy band member with an id of ${id}!` });
       }
+      // Otherwise, send back a status code of 200 and a message indicating that the band member was deleted.
       response.status(200).json(`Boy band member ${id} successfully deleted!`)
     })
+    // If the server is unable to get the data (server side error), send back a 500 status code along with a JSON object containing the error msg.
     .catch(error => {
       response.status(500).json({ error })
     })
 })
 
+// Creates an endpoint for a POST request to add a new band member to the database at the '/api/v1/members/:id' route
 app.post('/api/v1/members', (request, response) => {
+  // Declare a variable called 'member' and assign it to the value of the request body (i.e., the object containing the member's data)
   const member = request.body;
 
+  // Creates a for... of loop which iterates over each element in an iterable (in this case, an array)
   for (let requiredParam of ['name', 'band_name']) {
+    // If either member.name or member.band_name doesn't exist,
     if (!member[requiredParam]) {
+      // Return a 422 status code, along with an error message reminding the user what format the request body requires
       return response.status(422).send({ error: `Expected format: {
         name: <String>,
         band_name: <String>,
@@ -136,20 +145,26 @@ app.post('/api/v1/members', (request, response) => {
       At least name and band_name are required. You're missing ${requiredParam}.`})
     }
   }
-
+  // Otherwise, insert 'member' into the 'bandMembers' database and return the new member's id number.
   database('bandMembers').insert(member, 'id')
+    // Run a callback on the returned id number
     .then(member => {
+      // Return a 201 status code with a success message
       response.status(201).json(`Boy band member with id of ${member[0]} successfully created!`)
     })
+    // If the server is unable to get the data (server side error), send back a 500 status code along with a JSON object containing the error msg.
     .catch(error => {
       response.status(500).json({ error })
     })
 })
 
+// Creates an endpoint for a POST request to add a new band member to the database at the '/api/v1/members/:id' route
 app.post('/api/v1/bands', (request, response) => {
+  // Declare a variable called 'band' and assign it to the value of the request body (i.e., the object containing the band's data)
   const band = request.body;
-
+  // If the request body doesn't have a name property,
   if (!band.name) {
+    // Return a 422 status code, along with an error message reminding the user what format the request body requires
     return response.status(422).send({ error: `Expected format: {
       name: <String>,
       highest_pos: <String>,
@@ -161,19 +176,25 @@ app.post('/api/v1/bands', (request, response) => {
     At least name is required. Please provide the band's name.`})
   }
 
+  // Otherwise, insert 'band' into the 'bands' database and return the new band's id number.
   database('bands').insert(band, 'id')
+    // Run a callback on the returned id number
     .then(band => {
+      // Return a 201 status code with a success message
       response.status(201).json(`Boy band with id of ${band[0]} successfully created!`)
     })
+    // If the server is unable to get the data (server side error), send back a 500 status code along with a JSON object containing the error msg.
     .catch(error => {
       response.status(500).json({ error })
     })
 })
 
+// Create an endpoint at the root route, so when someone navigates to the root of the app they see the following message displayed: 'For documentation on endpoints, please see https://github.com/ericwm76/boybands2'
 app.get('/', (request, response) => {
   response.send('For documentation on endpoints, please see https://github.com/ericwm76/boybands2')
 })
 
+// Tells the app to listen for connections to the port, specified by the app.get('port) method, and console log the message when a connection is made.
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
 })
