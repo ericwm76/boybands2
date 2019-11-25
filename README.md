@@ -567,3 +567,25 @@ or
       At least name and band_name are required. You're missing band_name.`}
 ```
 </details>
+
+---
+### Delete a boy band member:
+<code>DELETE /api/v1/members/:id</code>  
+
+#### Response
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Response</th>
+    </tr>
+  </thead>
+  <tr>
+    <td>200</td>
+    <td>`Boy band member (id_number) sucessfully deleted!`</td>
+  </tr>
+    <tr>
+    <td>404</td>
+    <td><code>`There is not a boy band member with an id of (id_number)`</code></td>
+  </tr>
+</table>
