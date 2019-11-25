@@ -3,12 +3,12 @@ const membersData = require('../../../src/data/members');
 
 const createBand = (knex, band) => {
   return knex('bands').insert({
-    band: band.band,
+    name: band.band,
     highest_pos: band.highest_pos,
     highest_pos_date: band.highest_pos_date,
     highest_song: band.highest_song,
     highest_song_vid: band.highest_song_vid
-  }, 'band')
+  }, 'name')
   .then(bandName => {
     let membersPromises = [];
     membersData
@@ -16,8 +16,8 @@ const createBand = (knex, band) => {
       .forEach(member => {
         membersPromises.push(
           createBandMember(knex, {
-            band: bandName[0],
             name: member.name,
+            band_name: bandName[0],
             dob: member.dob,
             hair_color: member.hair_color,
             hair_frosted: member.hair_frosted,
@@ -27,8 +27,7 @@ const createBand = (knex, band) => {
             accessories: member.accessories,
             top_style: member.top_style,
             bottom_style: member.bottom_style,
-            instrument: member.instrument,
-            height: member.height
+            instrument: member.instrument
           })
         )
       });
