@@ -81,6 +81,39 @@ app.delete('/api/v1/members/:id', (request, response) => {
     })
 })
 
+app.post('/api/v1/members', (request, response) => {
+  const member = request.body;
+
+  for (let requiredParam of ['name', 'band_name']) {
+    if (!member[requiredParam]) {
+      return response.status(422).send({ error: `Expected format: {
+        name: <String>,
+        band_name: <String>,
+        dob: <String>,
+        hair_color: <String>,
+        hair_frosted: <String>,
+        hair_style: <String>,
+        eyes: <String>,
+        facial_hair: <String>,
+        accessories: <String>,
+        top_style: <String>,
+        bottom_style: <String>,
+        instrument: <String>
+      }
+      
+      At least name and band_name are required. You're missing ${requiredParam}.`})
+    }
+  }
+
+  database('bandMembers').insert(member, 'id')
+    .then(member => {
+      response.status(201).json({ id: member[0] })
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+})
+
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
 })
