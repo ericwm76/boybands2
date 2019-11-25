@@ -270,4 +270,146 @@ The data used to seed this database came from [The Pudding](https://pudding.cool
 ```
 </details>
 
+---
+### GET a specific boy band member by ID:
+<code>GET /api/v1/members/:id</code>
+
+#### Query Parameters
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>id</code></td>
+      <td><code>number</code></td>
+      <td>
+        Unique band member identifier.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Response
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Response</th>
+    </tr>
+  </thead>
+  <tr>
+    <td>
+      200
+    </td>
+    <td>
+      Returns a specific boy band member object.
+    </td>
+  </tr>
+</table>
+
+---
+### Add a band:
+<code>POST /api/v1/bands/</code> 
+
+#### Parameters
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+      <td>
+        Name of boy band.
+      </td>
+      <td>YES</td>
+    </tr>
+    <tr>
+      <td><code>highest_pos</code></td>
+      <td><code>string</code></td>
+      <td>
+        The highest position on the Billboard Top 100 charts reached by any of this boy band's songs.
+      </td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>highest_pos_date</code></td>
+      <td><code>string</code></td>
+      <td>The date on which this boy band's biggest hit reached its highest position on the Billboard Top 100 charts. If the band had multiple hits reach the same position, the date given is the date of their earliest hit to reach that position.</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>highest_song</code></td>
+      <td><code>string</code></td>
+      <td>The name of the song that reached the highest position on the Billboard Top 100 charts. If the band had multiple hits reach the same position, the song given is the earliest song to reach that position.</td>
+      <td>NO</td>
+    </tr>
+    <tr>
+      <td><code>highest_song_vid</code></td>
+      <td><code>URL</code></td>
+      <td>A URL linking to the music video for the band's highest song.</td>
+      <td>NO</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Response
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Response</th>
+    </tr>
+  </thead>
+  <tr>
+    <th>201</th>
+    <th>Returns `Boy band with id of <band_id> successfully created!`</th>
+  </tr>
+    <tr>
+    <th>422</th>
+    <th>
+      <code>
+        { error: `Expected format: {
+      name: <String>,
+      highest_pos: <String>,
+      highest_pos_date: <String>,
+      highest_song: <String>,
+      highest_song_vid: <URL>,
+    }
+    At least name is required. Please provide the band's name.` }
+      </code> 
+    </th>
+  </tr>
+</table>
+
+<details><summary>Example response</summary>
+
+```json
+`Boy band with id of 63 successfully created!`
+```
+or
+
+```
+{ error: `Expected format: {
+      name: <String>,
+      highest_pos: <String>,
+      highest_pos_date: <String>,
+      highest_song: <String>,
+      highest_song_vid: <URL>,
+    }
+    At least name is required. Please provide the band's name.` }
+```
+</details>
+
 
