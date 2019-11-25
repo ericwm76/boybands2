@@ -64,6 +64,23 @@ app.get('/api/v1/members/:id', (request, response) => {
     });
 });
 
+app.delete('/api/v1/members/:id', (request, response) => {
+  const { id } = request.params;
+  database('bandMembers')
+    .where({ id: id }).select().del()
+    .then(r => {
+      if (r === 0) {
+        response
+        .status(404)
+        .json({ error: `There is not a boy band member with an id of ${id}!` });
+      }
+      response.status(200).json(`Boy band member ${id} successfully deleted!`)
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+})
+
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
 })
