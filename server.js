@@ -1,4 +1,4 @@
-// Bring in Express, which is what we use to...
+// Bring in Express, which is a middleware 
 const express = require('express');
 // Bring in CORS, which allows the server to share data with domains that are not the origin
 const cors = require('cors');
@@ -11,61 +11,86 @@ const configuration = require('./knexfile')[environment];
 // Sets the database to be either the development database or the production database (since those are the only two environments set up in the knexfile.js)
 const database = require('knex')(configuration);
 
-// Creates a 
+// Creates a Locals storage object with a property 'title' whose value is 'Boy Bands...'
 app.locals.title = 'Boy Bands and Their Members Since 1980';
+// App uses express.json middleware, which parses requests received into JSON
 app.use(express.json());
+// Invokes the CORS method, which allows for cross-origin resource sharing
 app.use(cors());
+// Sets the port to whatever is specified in the process file (?), or to 3000 if none is specified.
 app.set('port', process.env.PORT || 3000);
 
+
+// Creates an endpoint for a GET request at the '/api/v1/bands' route
 app.get('/api/v1/bands', (request, response) => {
+  // Choose which data table to get data from in the database
   database('bands').select()
+  // Once the data has been selected, run a callback function on each row of data
   .then((bands) => {
+    // send back a response status code of 200, along with a JSON object containing that row's data
     response.status(200).json(bands);
   })
+  // If the server is unable to get the data (server side error), send back a 500 status code along with a JSON object containing the error msg.
   .catch((error) => {
     response.status(500).json({ error });
   });
 });
 
+// Creates an endpoint for a GET request at the '/api/v1/members' route. 
 app.get('/api/v1/members', (request, response) => {
+  // Choose which data table to get data from in the database
   database('bandMembers').select()
+  // Once the data has been selected, run a callback function on each row of data
   .then((members) => {
+    // send back a response status code of 200, along with a JSON object containing that row's data
     response.status(200).json(members);
   })
+  // If the server is unable to get the data (server side error), send back a 500 status code along with a JSON object containing the error msg.
   .catch((error) => {
     response.status(500).json({ error })
   });
 });
 
+// Creates an endpoint for a GET request for a specific band at the '/api/v1/bands/:id' route, where the :id can be swapped in for a band's id number
 app.get('/api/v1/bands/:id', (request, response) => {
+  // Deconstructs the id property from the request's params object and sets it to a constant
   const { id } = request.params;
-  database('bands')
-    .where({ id: id })
+
+  // Select everything from the 'bands' data table where the id number matches the id passed in by the request params
+  database('bands').where({ id: id })
+  // Run a callback function on each row of data returned (should only be one)
     .then(band => {
+      // If nothing in the data table matches the requested id number, 
       if (band.length === 0) {
-        response
-          .status(404)
-          .json({ error: `There is not a boy band with an id of ${id}!` });
+        // Send back a 404 error with a JSON object, with a key of 'error' and a value of the error message.
+        response.status(404).json({ error: `There is not a boy band with an id of ${id}!` });
       }
+      // Otherwise, send back a 200 status code (ok) and a json object with the band's data (has to be at index 0 because the data is always returned as an array, even if there's only one)
       response.status(200).json(band[0]);
     })
+    // If the server is unable to get the data (server side error), send back a 500 status code along with a JSON object containing the error msg.
     .catch(error => {
       response.status(500).json({ error });
     });
 });
 
+// Creates an endpoint for a GET request for a specific band member at the '/api/v1/members/:id' route, where the :id can be swapped in for a member's id number
 app.get('/api/v1/members/:id', (request, response) => {
+  // Deconstructs the id property from the request's params object and sets it to a constant
   const { id } = request.params;
-  database('bandMembers')
-    .where({ id: id })
+  // Select everything from the 'bandMembers' data table where the id number matches the id passed in by the request params
+  database('bandMembers').where({ id: id })
+    // Run a callback function on each row of data returned (should only be one)
     .then(member => {
+      // If nothing in the data table matches the requested id number, 
       if (member.length === 0) {
-        response
-          .status(404)
-          .json({ error: `There is not a boy band member with an id of ${id}!` });
+        // Send back a 404 error with a JSON object, with a key of 'error' and a value of the error message.
+        response.status(404).json({ error: `There is not a boy band member with an id of ${id}!` });
       }
+      // Otherwise, send back a 200 status code (ok) and a json object with the band member's data
       response.status(200).json(member[0]);
     })
+    // If the server is unable to get the data (server side error), send back a 500 status code along with a JSON object containing the error msg.
     .catch(error => {
       response.status(500).json({ error });
     });
