@@ -4,6 +4,15 @@ This API enables the user to retrieve and interact with data on all boy bands an
 
 The data used to seed this database came from [The Pudding](https://pudding.cool/2018/11/boy-bands/). You can find the original data with documentation about how the data was compiled and criteria for which bands made the cut [here](https://github.com/the-pudding/data/tree/master/boybands). Check them out! They're doing some really amazing things with data-based visual essays on cultural topics from politics to sports to entertainment. 
 
+## Tech 
+
+This application was built using the following technologies:
+
+- Node.js
+- Express.js
+- Knex
+-PostgresQL
+
 ## API Endpoints
 
 ### Base URL
