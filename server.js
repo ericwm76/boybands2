@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
@@ -27,6 +28,23 @@ app.get('/api/v1/members', (request, response) => {
   .catch((error) => {
     response.status(500).json({ error })
   });
+});
+
+app.get('/api/v1/members/:id', (request, response) => {
+  const { id } = request.params;
+  database('bandMembers')
+    .where({ id: id })
+    .then(member => {
+      if (member.length === 0) {
+        response
+          .status(404)
+          .json({ error: `There is not a boy band member with an id of ${id}!` });
+      }
+      response.status(200).json(member[0]);
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
 });
 
 app.listen(app.get('port'), () => {
