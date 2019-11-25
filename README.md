@@ -11,7 +11,7 @@ This application was built using the following technologies:
 - Node.js
 - Express.js
 - Knex
--PostgresQL
+- PostgresQL
 
 ## API Endpoints
 
