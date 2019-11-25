@@ -1,10 +1,17 @@
+// Bring in Express, which is what we use to...
 const express = require('express');
+// Bring in CORS, which allows the server to share data with domains that are not the origin
 const cors = require('cors');
+// Creates an App object with all the methods available to it
 const app = express();
+// Sets the environment to whatever is specified in the configuration file; if none is specified, then defaults to 'development'
 const environment = process.env.NODE_ENV || 'development';
+// Sets the configuration to whatever the environment is (development by default, but could also be production)
 const configuration = require('./knexfile')[environment];
+// Sets the database to be either the development database or the production database (since those are the only two environments set up in the knexfile.js)
 const database = require('knex')(configuration);
 
+// Creates a 
 app.locals.title = 'Boy Bands and Their Members Since 1980';
 app.use(express.json());
 app.use(cors());
